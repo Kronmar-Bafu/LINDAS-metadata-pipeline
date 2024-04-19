@@ -1,0 +1,37 @@
+#this form contains only that metadata which is exclusive to opendata.swiss
+#the metadata which overlaps with the LINDAS requirements is automatically added if publication through opendata.swiss is selected
+#for details see the DCAT-AP handbook at: https://handbook.opendata.swiss/de/content/glossar/bibliothek/dcat-ap-ch.html
+
+identifier: "" #string of identifier, expected in the following structure: [Source-Dataset-ID]@[Source-Organisation-ID]
+
+creator: "" #URI of organization from list of opendata.swiss organizations https://register.ld.admin.ch/opendataswiss/org
+publisher: "" #string with the name of publishing organization
+
+themes: "" #list (separated by ";") of URIs of themes from list of opendata.swiss themes https://register.ld.admin.ch/opendataswiss/category/
+
+rights: "" #URI of one of the four defined terms for the terms of use from https://ld.admin.ch/vocabulary/TermsOfUse      
+#note on usage: 1. is being retired by DCAT-AP but is already implemented in all LINDAS datasets 2. should only be used if license is used for Creative Commons license, in which case the terms of used can be kept in rights.
+license: "" #URI of the legal basis for the creation of the dataset from fedlex      
+#note on usage: 1. should be attached to dcat:distribution, which has not been implemented in LINDAS datasets 2. should have the information currently stored in dct:rights, legal basis should instead be stored as a related resource (dct:relation) 
+
+
+#optional metadata
+keywords_DE: "" #list (separated by ";") of keywords as strings in german, ensure provided keywors have translations
+keywords_FR: "" #list (separated by ";") of keywords as strings in french
+keywords_IT: "" #list (separated by ";") of keywords as strings in italian
+keywords_EN: "" #list (separated by ";") of keywords as strings in english
+
+language: "" #list (separated by ";") of abbreviations (according to ISO 639-1) of languages used in dataset, for example "de; fr; it; en"
+
+landing page: "" #url of landing page of website about the dataset
+related resource: "" #url link to documents that provide further information for the dataset, multiple can be included and must be separated by ";"
+documentation: "" #url that refers to document or page about the distribution
+qualified relation: "" #list (separated by ";") of URIs of the identifiers of related datasets on opendata.swiss
+
+
+temporal start: "" #start of time period covered by dataset formatted as xsd:date / ISO 8601, multiple periods can be included and must be separated by ";"
+temporal end: "" #end of time period covered by dataset formatted as xsd:date / ISO 8601, multiple periods can be included and must be separated by ";"
+
+spatial: "" #string with the name of the region which the dataset is about in english
+
+accrual periodicity: "" #URI according to schema http://publications.europa.eu/resource/authority/frequency

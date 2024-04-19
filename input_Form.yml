@@ -1,0 +1,36 @@
+---
+dataset-URI: 
+name_DE: ""
+name_FR: ""
+name_IT: ""
+name_EN: ""  
+#dataset name as string in up to 4 languages, separated by ";" in the order DE, FR, IT, ENG
+description_DE: ""
+description_FR: ""
+description_IT: ""
+description_EN: ""
+#description as string in up to 4 languages, separated by ";" in the order DE, FR, IT, ENG
+
+contact-point name: "" #name of individual or organization as string
+contact-point email: "" #email address as string
+
+source creation-date:  #must be formatted as xsd:date / ISO 8601
+source modification-date:  #must be formatted as xsd:dateTime
+dataset publication-date:  #must be formatted as xsd:date / ISO 8601
+
+#Must have at least one of these
+work example application: "" #if applicable, must be the name of a custom application(s) such as "hydrodaten" or "strompreis" (separated by ";" if multiple)   must be formated as it is written in the https://ld.admin.ch/application/ URI
+work example visualize: "" #if applicable, must be url of dataset on visualize    if present, must have work example application visualize (or it will be written automatically)
+work example SPARQLendpoint: "" #if applicable, must be the URL of the SPARQL endpoint with the graph preselected
+
+SPARQL endpoint: "" #URL of the SPARQL endpoint
+
+
+#optional metadata
+dataset creator: "" #URI of the organization responsible for the dataset, own URI or from Zefix
+dataset contributor: "" #URI of the organization contributing to the publishing and transforming of the dataset, own URI or from Zefix   only add if different from creator
+dataset publisher: "" #URI of the platform or database used for publication usually <https://ld.admin.ch/org/lindas> 
+
+next modification date: #the date of the next planned update of the dataset, must be formatted as xsd:date / ISO 8601
+
+example resource: "" #URI of a triple / resource in the dataset which serves as an example for introduction to the dataset
