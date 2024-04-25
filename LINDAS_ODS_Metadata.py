@@ -320,13 +320,13 @@ if ODS_flag:
     else: print("opendata.swiss creator missing")
     publisher_ODS = ODS_data.get("publisher")
     if publisher_ODS:
-        g.add((dataset, dct.publisher, URIRef(publisher_ODS)))
+        g.add((dataset, dct.publisher, Literal(publisher_ODS)))
     else: print("opendata.swiss publisher missing")
     license_ODS = ODS_data.get("license")
     #this script follows the current implementation of "dct:license" on LINDAS rather than the ideal description in the DCAT-AP handbook
     if license_ODS:
-        if "https://" and "fedlex.admin.ch" in license_ODS:
-            g.add((Dataset, dct.rights, URIRef(license_ODS)))
+        if "https://" and "fedlex" and ".admin.ch" in license_ODS:
+            g.add((dataset, dct.rights, URIRef(license_ODS)))
         else: print("opendata.swiss license not formatted correctly")
     else: print("opendata.swiss license missing")
     
@@ -334,14 +334,14 @@ if ODS_flag:
     #this script follows the current implementation of "dct:rights" on LINDAS rather than the ideal description in the DCAT-AP handbook
     if rights:
         if "https://ld.admin.ch/vocabulary/TermsOfUse" in rights:
-            g.add((Dataset, dct.rights, URIRef(rights)))
+            g.add((dataset, dct.rights, URIRef(rights)))
         else: print("opendata.swiss rights not formatted correctly")
     else: print("opendata.swiss rights missing")
     
     accrual = ODS_data.get("accrual periodicity")
     if accrual:
         if "http://publications.europa.eu/resource/authority/frequency" in accrual:
-            g.add((Dataset, dct.accrualPeriodicity, Literal(accrual)))
+            g.add((dataset, dct.accrualPeriodicity, Literal(accrual)))
         else: print("opendata.swiss accrual periodicity not formatted correctly")
     else: print("opendata.swiss accrual periodicity missing")
     
@@ -357,29 +357,29 @@ if ODS_flag:
     keys_DE = ODS_data.get("keywords_DE").split(";")
     if keys_DE[0]:
         for key_DE in keys_DE:
-            if key.strip():
-                g.add((Dataset, dcat.keyword, Literal(key_DE.strip(), lang="de")))
+            if key_DE.strip():
+                g.add((dataset, dcat.keyword, Literal(key_DE.strip(), lang="de")))
             else: pass
     else: print("opendata.swiss german keywords were not provided")      
     keys_FR = ODS_data.get("keywords_FR").split(";")
     if keys_FR[0]:
         for key_FR in keys_FR:
-            if key.strip():
-                g.add((Dataset, dcat.keyword, Literal(key_FR.strip(), lang="fr")))
+            if key_FR.strip():
+                g.add((dataset, dcat.keyword, Literal(key_FR.strip(), lang="fr")))
             else: pass
     else: print("opendata.swiss french keywords were not provided")  
     keys_IT = ODS_data.get("keywords_IT").split(";")
     if keys_IT[0]:
         for key_IT in keys_IT:
-            if key.strip():
-                g.add((Dataset, dcat.keyword, Literal(key_IT.strip(), lang="it")))
+            if key_IT.strip():
+                g.add((dataset, dcat.keyword, Literal(key_IT.strip(), lang="it")))
             else: pass    
     else: print("opendata.swiss italian keywords were not provided")  
     keys_EN = ODS_data.get("keywords_EN").split(";")
     if keys_EN[0]:
         for key_EN in keys_EN:
-            if key.strip():
-                g.add((Dataset, dcat.keyword, Literal(key_EN.strip(), lang="en")))
+            if key_EN.strip():
+                g.add((dataset, dcat.keyword, Literal(key_EN.strip(), lang="en")))
             else: pass
     else: print("opendata.swiss english keywords were not provided")
     
@@ -387,14 +387,15 @@ if ODS_flag:
     if langs[0]:
         for language in langs:
             if language:
-                g.add((Dataset, dct.language, Literal(language.strip(), lang=language.strip)))
+                language = language.strip()
+                g.add((dataset, dct.language, Literal(language, lang=language)))
             else: pass 
     else: print("opendata.swiss languages missing")
 
     page = ODS_data.get("landing page")
     if not page: print("opendata.swiss landing page missing")
     elif "https://" in page:
-        g.add((Dataset, dcat.landingPage, URIRef(page)))
+        g.add((dataset, dcat.landingPage, URIRef(page)))
     else: print("opendata.swiss landing page not formatted correctly")
 
     docu = ODS_data.get("documentation").split(";")
@@ -402,7 +403,7 @@ if ODS_flag:
         for doc in docu:
             if not doc: pass
             else: 
-                g.add((Dataset, URIRef("http://xmlns.com/foaf/0.1/page"), Literal(doc.strip(), datatype="http://xmlns.com/foaf/0.1/Document")))
+                g.add((dataset, URIRef("http://xmlns.com/foaf/0.1/page"), Literal(doc.strip(), datatype="http://xmlns.com/foaf/0.1/Document")))
     else: 
         print("Optional: no opendata.swiss documentation pages provided")
     
@@ -411,7 +412,7 @@ if ODS_flag:
         for res in rel_res:
             if not res: pass
             elif "https://" in res:
-                g.add((Dataset, dct.relation, Literal(res.strip(), datatype="http://www.w3.org/2000/01/rdf-schema#Resource")))
+                g.add((dataset, dct.relation, Literal(res.strip(), datatype="http://www.w3.org/2000/01/rdf-schema#Resource")))
             else: print("Optional: opendata.swiss related resource not formatted correctly")
     else: print("Optional: no opendata.swiss related resource provided")
     
@@ -421,7 +422,7 @@ if ODS_flag:
             if not rel: pass
             elif "https://" in rel:
                 rel_BN = BNode()
-                g.add((Dataset, dcat.qualifiedRelation, rel_BN))
+                g.add((dataset, dcat.qualifiedRelation, rel_BN))
                 g.add((rel_BN, RDF.type, dcat.Relationship))
                 g.add((rel_BN, dcat.hadRole, schema.sameAs))
                 g.add((rel_BN, dct.relation, Literal(rel.strip(), datatype="http://www.w3.org/2000/01/rdf-schema#Resource")))
@@ -451,7 +452,7 @@ if ODS_flag:
     
     spatial = ODS_data.get("spatial")
     if spatial:
-        g.add((Dataset, dct.spatial, Literal(spatial, lang = "en")))
+        g.add((dataset, dct.spatial, Literal(spatial, lang = "en")))
     else: print("Optional: opendata.swiss spatial information missing")
 
 if name_DE: filename= name_DE.replace(" ", "_").replace(":","")+".ttl"
