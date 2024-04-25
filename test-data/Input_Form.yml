@@ -1,0 +1,35 @@
+---
+dataset-URI: https://environment.ld.admin.ch/foen/nfi/nfi_C-20/cube/2023-3
+name_DE: "LFI: Themen nach Entwicklungsstufe"
+name_FR: "IFN: Thème par stade de développement"
+name_IT: "IFN: Argomento per stadio di sviluppo"
+name_EN: "NFI: Topics by stage of stand development"  
+#dataset name as string in up to 4 languages, separated by ";" in the order DE, FR, IT, ENG
+description_DE: "Das Landesforstinventar (LFI) ist eine periodische Erhebung über den Zustand und die Entwicklung des Schweizer Waldes und entsteht in enger Zusammenarbeit zwischen dem Bundesamt für Umwelt (BAFU) und der Eidgenössischen Forschungsanstalt für Wald, Schnee und Landschaft (WSL). Dieser Datensatz enthält Informationen über: Anzahl Gehölzarten (ab 40 cm Höhe), Vorrat (Schaftholz), Totholzmenge, Totholzmenge pro Waldfläche, Totholzvolumen (Derbholz ohne Asthaufen), liegend, Totholzvolumen (Derbholz ohne Asthaufen), liegend pro Waldfläche, Vorrat (Schaftholz) pro Waldfläche, Totholzvolumen, Totholzvolumen pro Waldfläche, Gehölzartenvielfalt, Totholzvolumen (Derbholz), liegend, Totholzvolumen (Derbholz), liegend pro Waldfläche, Waldfläche, Stammzahl, Stammzahl pro Waldfläche und Basalfläche pro Waldfläche"
+description_FR: "L'inventaire forestier national (IFN) est un relevé périodique de l'état et de l'évolution de la forêt suisse. Il est le fruit d'une étroite collaboration entre l'Office fédéral de l'environnement (OFEV) et l'Institut fédéral de recherches sur la forêt, la neige et le paysage (WSL). Cet ensemble de données contient des informations sur: nombre d'espèces ligneuses (d'au moins 40 cm de hauteur), volume des arbres vifs (bois de tige), quantité de bois mort, quantité de bois mort par surface forestière, volume de bois mort (bois fort sans tas de branches) à terre, volume de bois mort (bois fort sans tas de branches) à terre par surface forestière, volume des arbres vifs (bois de tige) par surface forestière, volume du bois mort, volume du bois mort par surface forestière, diversité des espèces ligneuses, volume de bois mort (bois fort), à terre, volume de bois mort (bois fort), à terre par surface forestière, surface forestière, nombre de tiges, nombre de tiges par surface forestière et surface terrière par surface forestière"
+description_IT:
+description_EN:
+#description as string in up to 4 languages, separated by ";" in the order DE, FR, IT, ENG
+
+contact-point name: "Abteilung Wald, Bundesamt für Umwelt" #name of individual or organization as string
+contact-point email: "wald@bafu.admin.ch" #email address as string
+
+source creation-date: 2023-06-02 #must be formatted as xsd:date / ISO 8601
+source modification-date: 2023-11-02T19:48:54Z #must be formatted as xsd:date / ISO 8601
+dataset publication-date: 2023-06-22 #must be formatted as xsd:date / ISO 8601
+
+#Must have at least one of these
+work example application: opendata.swiss; visualize; #if applicable, must be precise name of application(s) such as opendata.swiss, visualize, hydrodaten, separated by ";", as it is written in the https://ld.admin.ch/application/ URI
+work example visualize: https://visualize.admin.ch/en/browse?previous=%7B%22includeDrafts%22%3Afalse%7D&dataset=htps%3A%2F%2Fenvironment.ld.admin.ch%2Ffoen%2Fnfi%2Fnfi_C-20%2Fcube%2F2023.3&dataSource=Prod #if applicable, must be url of dataset on visualize    if present, must have work example application visualize
+work example SPARQLendpoint: https://lindas.admin.ch/sparql/#query=PREFIX%20rdf%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%3E%0APREFIX%20sh%3A%20%3Chttp%3A%2F%2Fwww.w3.org%2Fns%2Fshacl%23%3E%0APREFIX%20cube%3A%20%3Chttps%3A%2F%2Fcube.link%2F%3E%0APREFIX%20schema%3A%20%3Chttp%3A%2F%2Fschema.org%2F%3E%0APREFIX%20dcterms%3A%20%3Chttp%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%3E%0A%0Aselect%20%3Fobs%20%3Fpath%20%3Fvalue%0A%7B%0A%20%20%3Fcube%20dcterms%3Aidentifier%20%22nfi_C-20%22%20%3B%0A%20%20%20%20%20%20%20%20schema%3Aversion%202023.3%20%3B%0A%20%20%20%20%20%20%20%20cube%3AobservationConstraint%20%3Fshape%20%3B%0A%20%20%20%20%20%20%20%20cube%3AobservationSet%20%3Fset%20.%0A%20%20%0A%20%20%3Fset%20cube%3Aobservation%20%3Fobs%20.%0A%20%20%0A%20%20%3Fshape%20sh%3Aproperty%20%3Fprop%20.%0A%20%20%3Fprop%20sh%3Apath%20%3Fpath%20.%0A%20%20%0A%20%20%3Fobs%20%3Fpath%20%3Fvalue%20.%0A%7D%0A%20%20&endpoint=https%3A%2F%2Flindas.admin.ch%2Fquery&requestMethod=POST&tabTitle=LFI&headers=%7B%7D&contentTypeConstruct=application%2Fn-triples%2C*%2F*%3Bq%3D0.9&contentTypeSelect=application%2Fsparql-results%2Bjson%2C*%2F*%3Bq%3D0.9&outputFormat=table #if applicable, must be the URL of the SPARQL endpoint with the graph preselected
+
+SPARQL endpoint: https://environment.ld.admin.ch/query #URL of the SPARQL endpoint
+
+#optional metadata
+dataset creator: "https://register.ld.admin.ch/opendataswiss/org/bundesamt-fur-umwelt-bafu" #string with the name of the organization responsible for the dataset or a pre-existing URI for that organization
+dataset contributor: "https://register.ld.admin.ch/opendataswiss/org/schweizerisches-bundesarchiv-bar" #string with the name of the organization contributing to the publishing and transforming of the dataset or a pre-existing URI for that organization    only add if different from creator
+dataset publisher: "https://ld.admin.ch/org/lindas" #name of the platform or database used for publication formatted as string or using a pre-existing URI for that organization usually <https://ld.admin.ch/org/lindas> 
+
+next modification date: 2024-04-18 #the date of the next planned update of the dataset, must be formatted as xsd:date / ISO 8601
+
+example resource: "https://environment.ld.admin.ch/foen/nfi/observation/2023-11-02/410_150_2382_canton-16_20-6" #URI of a triple / resource in the dataset which serves as an example for introduction to the dataset

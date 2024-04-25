@@ -1,0 +1,37 @@
+#this form contains only that metadata which is exclusive to opendata.swiss
+#the metadata which overlaps with the LINDAS requirements is automatically added if publication through opendata.swiss is selected
+#for details see the DCAT-AP handbook at: https://handbook.opendata.swiss/de/content/glossar/bibliothek/dcat-ap-ch.html
+
+identifier: "nfi@C-20" #string of identifier, expected in the following structure: [Source-Dataset-ID]@[Source-Organisation-ID]
+
+creator: "https://register.ld.admin.ch/opendataswiss/org/bundesamt-fur-umwelt-bafu" #URI of organization from list of opendata.swiss organizations https://register.ld.admin.ch/opendataswiss/org
+publisher: "Abteilung Wald, Bundesamt für Umwelt" #string with the name of publishing organization
+
+themes: "https://register.ld.admin.ch/opendataswiss/category/agriculture ; https://register.ld.admin.ch/opendataswiss/category/territory" #list (separated by ";") of URIs of themes from list of opendata.swiss themes https://register.ld.admin.ch/opendataswiss/category/
+
+rights: "https://ld.admin.ch/vocabulary/TermsOfUse/Provide-the-Source" #URI of one of the four defined terms for the terms of use from https://ld.admin.ch/vocabulary/TermsOfUse      
+#note on usage: 1. is being retired by DCAT-AP but is already implemented in all LINDAS datasets 2. should only be used if license is used for Creative Commons license, in which case the terms of used can be kept in rights.
+license: "https://fedlex.data.admin.ch/eli/cc/1992/2521_2521_2521" #URI of the legal basis for the creation of the dataset from fedlex      
+#note on usage: 1. should be attached to dcat:distribution, which has not been implemented in LINDAS datasets 2. should have the information currently stored in dct:rights, legal basis should instead be stored as a related resource (dct:relation) 
+
+
+#optional metadata
+keywords_DE: "wald; forstwirtschaft" #list (separated by ";") of keywords as strings in german, ensure provided keywors have translations
+keywords_FR: "forêt; sylviculture" #list (separated by ";") of keywords as strings in french
+keywords_IT: "foreste; selvicoltura" #list (separated by ";") of keywords as strings in italian
+keywords_EN: "forest; forestry" #list (separated by ";") of keywords as strings in english
+
+language: "de; fr; it; en" #list (separated by ";") of abbreviations (according to ISO 639-1) of languages used in dataset, for example "de; fr; it; en"
+
+landing page: "https://lfi.ch/resultate/resultateliste.php?befNr=20" #url of landing page of website about the dataset
+related resource: "" #url link to documents that provide further information for the dataset, multiple can be included and must be separated by ";"
+documentation: "https://lfi.ch/publikationen/publ/ergebnisberichte/lfi3.php; https://doi.org/10.1007/978-3-030-19293-8; https://lfi.ch/publikationen/publ/ergebnisberichte/lfi1-en.php ; https://lfi.ch/publikationen/publ/ergebnisberichte/lfi4.php ; https://doi.org/10.1007/978-3-030-19293-8" #url that refers to document or page about the distribution, multiple can be included and must be separated by ";"
+qualified relation: "https://www.dora.lib4ri.ch/wsl/islandora/object/wsl%3A23637/datastream/PDF/D%C3%BCggelin-2020-Schweizerisches_Landesforstinventar._Anleitung_f%C3%BCr_die-%28published_version%29.pdf ; https://www.dora.lib4ri.ch/wsl/islandora/object/wsl%3A10498/datastream/PDF/Keller-2011-Swiss_National_Forest_inventory._Manual-%28published_version%29.pdf" #list (separated by ";") of URIs of the identifiers of related datasets on opendata.swiss
+
+
+temporal start: "1983-01-01" #start of time period covered by dataset formatted as xsd:date / ISO 8601, multiple periods can be included and must be separated by ";"
+temporal end: "2022-12-31" #end of time period covered by dataset formatted as xsd:date / ISO 8601, multiple periods can be included and must be separated by ";"
+
+spatial: "Switzerland" #string with the name of the region which the dataset is about in english
+
+accrual periodicity: "http://publications.europa.eu/resource/authority/frequency/IRREG" #URI according to schema http://publications.europa.eu/resource/authority/frequency
