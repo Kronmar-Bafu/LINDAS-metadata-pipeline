@@ -4,12 +4,12 @@ name_DE: ""
 name_FR: ""
 name_IT: ""
 name_EN: ""  
-#dataset name as string in up to 4 languages, separated by ";" in the order DE, FR, IT, ENG
+#dataset name as string in up to 4 languages
 description_DE: ""
 description_FR: ""
 description_IT: ""
 description_EN: ""
-#description as string in up to 4 languages, separated by ";" in the order DE, FR, IT, ENG
+#description as string in up to 4 languages
 
 contact-point name: "" #name of individual or organization as string
 contact-point email: "" #email address as string
