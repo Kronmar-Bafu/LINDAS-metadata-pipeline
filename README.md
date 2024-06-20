@@ -16,3 +16,5 @@ Python Modules
 - yaml
 - datetime
 - dateutil
+
+To install these requirements, you can use `pip install -r requirements.txt`
