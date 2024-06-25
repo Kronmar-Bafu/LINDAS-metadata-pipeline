@@ -1,0 +1,12 @@
+---
+shape-URI: https://dummy_test.ld.admin.ch/cube/shape/
+dimensions:
+  - dimension-type: Key Dimension
+    scale-type: ordinal
+    name_DE: Jahr
+    name_FR: An
+    name_IT: Anno
+    name_EN: Year
+    data-kind: 
+      type: GeneralDateTimeDescription
+      unit-type: year
