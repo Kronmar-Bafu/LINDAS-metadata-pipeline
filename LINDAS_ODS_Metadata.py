@@ -4,11 +4,7 @@ from dateutil.parser import parse
 import yaml
 from datetime import datetime
 
-
-#instantiate namespace
-schema = Namespace("http://schema.org/")
-dcat = Namespace("http://www.w3.org/ns/dcat#")
-dct = Namespace("http://purl.org/dc/terms/")
+from namespaces import *
 
 #parse input
 with open("input_Form.yml", "rt", encoding='utf8') as yml_input:
@@ -37,9 +33,9 @@ dataset_URL = input_data.get("dataset-URI")
 if dataset_URL[-1] != "/":
     dataset_URL = dataset_URL+"/"
 dataset = URIRef(dataset_URL)
-g.add((dataset, RDF.type, schema.Dataset))
+g.add((dataset, RDF.type, SCHEMA.Dataset))
 if ODS_flag:
-    g.add((dataset, RDF.type, dcat.Dataset))
+    g.add((dataset, RDF.type, DCAT.Dataset))
 
 #for each metadata point the following steps need to be checked through
 # 1. get from dict
@@ -51,65 +47,65 @@ if ODS_flag:
 name_DE = input_data.get("name_DE")
 if name_DE:
     de_name = Literal(name_DE.strip(), lang="de")
-    g.add((dataset, schema.name, de_name))
+    g.add((dataset, SCHEMA.name, de_name))
     if ODS_flag:
-        g.add((dataset, dct.title, de_name))
+        g.add((dataset, DCT.title, de_name))
 else:
     print("Missing German dataset name")
 name_FR = input_data.get("name_FR")
 if name_FR:
     fr_name = Literal(name_FR.strip(), lang="fr")
-    g.add((dataset, schema.name, fr_name))
+    g.add((dataset, SCHEMA.name, fr_name))
     if ODS_flag:
-        g.add((dataset, dct.title, fr_name))
+        g.add((dataset, DCT.title, fr_name))
 else:
     print("Missing French dataset name")
 name_IT = input_data.get("name_IT")
 if name_IT:
     it_name = Literal(name_IT.strip(), lang="it")
-    g.add((dataset, schema.name, it_name))
+    g.add((dataset, SCHEMA.name, it_name))
     if ODS_flag:
-        g.add((dataset, dct.title, it_name))
+        g.add((dataset, DCT.title, it_name))
 else:
     print("Missing Italian dataset name")
 name_EN = input_data.get("name_EN")
 if name_EN:
     en_name = Literal(name_EN.strip(), lang="en")
-    g.add((dataset, schema.name, en_name))
+    g.add((dataset, SCHEMA.name, en_name))
     if ODS_flag:
-        g.add((dataset, dct.title, en_name))
+        g.add((dataset, DCT.title, en_name))
 else:
     print("Missing English dataset name")
 description_DE = input_data.get("description_DE")
 if description_DE:
     de_description = Literal(description_DE.strip(), lang="de")
-    g.add((dataset, schema.description, de_description))
+    g.add((dataset, SCHEMA.description, de_description))
     if ODS_flag:
-        g.add((dataset, dct.description, de_description))
+        g.add((dataset, DCT.description, de_description))
 else:
     print("Missing German dataset description")
 description_FR = input_data.get("description_FR")
 if description_FR:
     fr_description = Literal(description_FR.strip(), lang="fr")
-    g.add((dataset, schema.description, fr_description))
+    g.add((dataset, SCHEMA.description, fr_description))
     if ODS_flag:
-        g.add((dataset, dct.description, fr_description))
+        g.add((dataset, DCT.description, fr_description))
 else:
     print("Missing French dataset description")
 description_IT = input_data.get("description_IT")
 if description_IT:
     it_description = Literal(description_IT.strip(), lang="it")
-    g.add((dataset, schema.description, it_description))
+    g.add((dataset, SCHEMA.description, it_description))
     if ODS_flag:
-        g.add((dataset, dct.description, it_description))
+        g.add((dataset, DCT.description, it_description))
 else:
     print("Missing Italian dataset description")
 description_EN = input_data.get("description_EN")
 if description_EN:
     en_description = Literal(description_EN.strip(), lang="en")
-    g.add((dataset, schema.description, en_description))
+    g.add((dataset, SCHEMA.description, en_description))
     if ODS_flag:
-        g.add((dataset, dct.description, en_description))
+        g.add((dataset, DCT.description, en_description))
 else:
     print("Missing English dataset description")
 
@@ -121,12 +117,12 @@ if contact_name and contact_mail:
         contact_point = BNode()
         con_name = Literal(contact_name)
         con_mail = Literal(contact_mail)
-        g.add((dataset, schema.contactPoint, contact_point))
-        g.add((contact_point, schema.name, con_name))
-        g.add((contact_point, schema.email, con_mail))
+        g.add((dataset, SCHEMA.contactPoint, contact_point))
+        g.add((contact_point, SCHEMA.name, con_name))
+        g.add((contact_point, SCHEMA.email, con_mail))
         if ODS_flag:
             ODS_contact = BNode()
-            g.add((dataset, dcat.contactPoint, ODS_contact))
+            g.add((dataset, DCAT.contactPoint, ODS_contact))
             g.add((ODS_contact, RDF.type, URIRef("http://www.w3.org/2006/vcard/ns#Organization")))
             g.add((ODS_contact, URIRef("http://www.w3.org/2006/vcard/ns#fn"), con_name))
             g.add((ODS_contact, URIRef("http://www.w3.org/2006/vcard/ns#hasEmail"), con_mail))
@@ -146,7 +142,7 @@ if creation_date:
     try: 
         datetime.strptime(str(creation_date), date_format)
         cre_date = Literal(creation_date, datatype=URIRef('http://www.w3.org/2001/XMLSchema#date'))
-        g.add((dataset, schema.dateCreated, cre_date))
+        g.add((dataset, SCHEMA.dateCreated, cre_date))
     except(ValueError):
         print("creation date is not formatted as xsd:date")
 else:
@@ -158,9 +154,9 @@ if modification_date:
     try: 
         parse(str(modification_date))
         mod_date = Literal(modification_date, datatype=URIRef('http://www.w3.org/2001/XMLSchema#dateTime'))
-        g.add((dataset, schema.dateModified, mod_date))
+        g.add((dataset, SCHEMA.dateModified, mod_date))
         if ODS_flag:
-            g.add((dataset, dct.modified, mod_date))
+            g.add((dataset, DCT.modified, mod_date))
     except(ValueError):
         print("modification date is not formatted as xsd:dateTime")
 else:
@@ -172,10 +168,10 @@ if publication_date:
     try: 
         datetime.strptime(str(publication_date), date_format)
         pub_date = Literal(publication_date, datatype=URIRef('http://www.w3.org/2001/XMLSchema#date'))
-        g.add((dataset, schema.datePublished, pub_date))
+        g.add((dataset, SCHEMA.datePublished, pub_date))
         if ODS_flag:
             issue_date = parse(str(publication_date))
-            g.add((dataset, dct.issued, Literal(issue_date, datatype=URIRef('http://www.w3.org/2001/XMLSchema#date'))))
+            g.add((dataset, DCT.issued, Literal(issue_date, datatype=URIRef('http://www.w3.org/2001/XMLSchema#date'))))
     except(ValueError):
         print("publication date is not formatted as xsd:date")
 else:
@@ -186,16 +182,16 @@ work_example_app = input_data.get("work example application").split(";")
 for app in work_example_app:
     if app.strip() == "visualize":
         visualize_link = URIRef("https://ld.admin.ch/application/visualize")
-        g.add((dataset, schema.workExample, visualize_link))
+        g.add((dataset, SCHEMA.workExample, visualize_link))
         #could also be made redundant if automatically added when there is a visualize work example. Left for now in case there are datasets that are on visualize without providing a work example URL
     elif app.strip() == "opendata.swiss":
         ODS_link = URIRef("https://ld.admin.ch/application/opendataswiss")
-        g.add((dataset, schema.workExample, ODS_link))
+        g.add((dataset, SCHEMA.workExample, ODS_link))
         #possibly this metadata can be used to determine whether ODS metadata should be added or there could be a separate field in the YAML form for whether ODS publication is desired, which automatically adds this triple as well
     else:
         if app.strip():
             other_app_URI = URIRef("https://ld.admin.ch/application/"+app.strip())
-            g.add((dataset, schema.workExample, other_app_URI))
+            g.add((dataset, SCHEMA.workExample, other_app_URI))
         else:
             pass
         #work example application YAML form field is still required even if the main two applications would be automatically added elsewhere in case of other custom applications
@@ -206,20 +202,20 @@ if visualize_URL:
     if "https://visualize.admin.ch/" in visualize_URL:
         visualize_example = Literal(visualize_URL)
         visualize_BN = BNode()
-        g.add((dataset, schema.workExample, visualize_BN))
-        g.add((visualize_BN, schema.url, visualize_example))
-        g.add((visualize_BN, schema.name, Literal("visualize.admin.ch", lang="de")))
-        g.add((visualize_BN, schema.name, Literal("visualize.admin.ch", lang="fr")))
-        g.add((visualize_BN, schema.name, Literal("visualize.admin.ch", lang="it")))
-        g.add((visualize_BN, schema.name, Literal("visualize.admin.ch", lang="en")))
+        g.add((dataset, SCHEMA.workExample, visualize_BN))
+        g.add((visualize_BN, SCHEMA.url, visualize_example))
+        g.add((visualize_BN, SCHEMA.name, Literal("visualize.admin.ch", lang="de")))
+        g.add((visualize_BN, SCHEMA.name, Literal("visualize.admin.ch", lang="fr")))
+        g.add((visualize_BN, SCHEMA.name, Literal("visualize.admin.ch", lang="it")))
+        g.add((visualize_BN, SCHEMA.name, Literal("visualize.admin.ch", lang="en")))
         #This is how Cube Creator formats it, but is it really necessary to add 4 triples with different language tags for the same string?
-        g.add((visualize_BN, schema.encodingFormat, Literal("text/html", datatype=URIRef('http://www.w3.org/2001/XMLSchema#string'))))
-        g.add((visualize_BN, RDF.type, schema.CreativeWork))
+        g.add((visualize_BN, SCHEMA.encodingFormat, Literal("text/html", datatype=URIRef('http://www.w3.org/2001/XMLSchema#string'))))
+        g.add((visualize_BN, RDF.type, SCHEMA.CreativeWork))
         if visualize_link:
             pass
         else:
             visualize_link = URIRef("https://ld.admin.ch/application/visualize")
-            g.add((dataset, schema.workExample, visualize_link))
+            g.add((dataset, SCHEMA.workExample, visualize_link))
     else:
         print("Visualize work example link is not correctly formatted")
 else:
@@ -231,14 +227,14 @@ if example_sparql:
     if "https://lindas.admin.ch/sparql/" in example_sparql:
         sparql_work = Literal(example_sparql)
         sparql_BN = BNode()
-        g.add((dataset, schema.workExample, sparql_BN))
-        g.add((sparql_BN, schema.url, sparql_work))
-        g.add((sparql_BN, schema.name, Literal("SPARQL Endpoint mit Vorauswahl des Graph", lang="de")))
-        g.add((sparql_BN, schema.name, Literal("SPARQL Endpoint avec présélection du graphe", lang="fr")))
-        g.add((sparql_BN, schema.name, Literal("SPARQL Endpoint con preselezione del grafo", lang="it")))
-        g.add((sparql_BN, schema.name, Literal("SPARQL Endpoint with graph preselection", lang="en")))
-        g.add((sparql_BN, schema.encodingFormat, Literal("application/sparql-query", datatype=URIRef('http://www.w3.org/2001/XMLSchema#string'))))
-        g.add((sparql_BN, RDF.type, schema.CreativeWork))
+        g.add((dataset, SCHEMA.workExample, sparql_BN))
+        g.add((sparql_BN, SCHEMA.url, sparql_work))
+        g.add((sparql_BN, SCHEMA.name, Literal("SPARQL Endpoint mit Vorauswahl des Graph", lang="de")))
+        g.add((sparql_BN, SCHEMA.name, Literal("SPARQL Endpoint avec présélection du graphe", lang="fr")))
+        g.add((sparql_BN, SCHEMA.name, Literal("SPARQL Endpoint con preselezione del grafo", lang="it")))
+        g.add((sparql_BN, SCHEMA.name, Literal("SPARQL Endpoint with graph preselection", lang="en")))
+        g.add((sparql_BN, SCHEMA.encodingFormat, Literal("application/sparql-query", datatype=URIRef('http://www.w3.org/2001/XMLSchema#string'))))
+        g.add((sparql_BN, RDF.type, SCHEMA.CreativeWork))
     else:
         print("SPARQL work example link is not correctly formatted")
 else:
@@ -258,7 +254,7 @@ creator = input_data.get("dataset creator")
 if creator:
     if "http" in creator:
         creator_URI = URIRef(creator)
-        g.add((dataset, schema.creator, creator_URI))
+        g.add((dataset, SCHEMA.creator, creator_URI))
     else:
         print("dataset creator not formatted correctly")
 else:
@@ -267,7 +263,7 @@ contributor = input_data.get("dataset contributor")
 if contributor:
     if "http" in contributor:
         contributor_URI = URIRef(contributor)
-        g.add((dataset, schema.contributor, contributor_URI))
+        g.add((dataset, SCHEMA.contributor, contributor_URI))
     else:
         print("dataset contributor not formatted correctly")
 else:
@@ -276,7 +272,7 @@ publisher = input_data.get("dataset publisher")
 if publisher:
     if "http" in publisher:
         publisher_URI = URIRef(publisher)
-        g.add((dataset, schema.publisher, publisher_URI))
+        g.add((dataset, SCHEMA.publisher, publisher_URI))
     else:
         print("dataset publisher not formatted correctly")
 else:
@@ -306,27 +302,27 @@ else:
 if ODS_flag:
     ID = ODS_data.get("identifier")
     if "@" in ID:
-        g.add((dataset, dct.identifier, Literal(ID)))
+        g.add((dataset, DCT.identifier, Literal(ID)))
     else: print("opendata.swiss identifier not formatted correctly")
    
     creator_ODS = ODS_data.get("creator")
     if creator_ODS:
         if "https://register.ld.admin.ch/opendataswiss/org" in creator_ODS:
-            g.add((dataset, dct.creator, URIRef(creator_ODS)))
+            g.add((dataset, DCT.creator, URIRef(creator_ODS)))
             if not creator:
-                g.add((dataset, schema.creator, URIRef(creator_ODS)))
+                g.add((dataset, SCHEMA.creator, URIRef(creator_ODS)))
             else: pass
         else: print("opendata.swiss creator was not formatted correctly")
     else: print("opendata.swiss creator missing")
     publisher_ODS = ODS_data.get("publisher")
     if publisher_ODS:
-        g.add((dataset, dct.publisher, Literal(publisher_ODS)))
+        g.add((dataset, DCT.publisher, Literal(publisher_ODS)))
     else: print("opendata.swiss publisher missing")
     license_ODS = ODS_data.get("license")
     #this script follows the current implementation of "dct:license" on LINDAS rather than the ideal description in the DCAT-AP handbook
     if license_ODS:
         if "https://" and "fedlex" and ".admin.ch" in license_ODS:
-            g.add((dataset, dct.rights, URIRef(license_ODS)))
+            g.add((dataset, DCT.rights, URIRef(license_ODS)))
         else: print("opendata.swiss license not formatted correctly")
     else: print("opendata.swiss license missing")
     
@@ -334,14 +330,14 @@ if ODS_flag:
     #this script follows the current implementation of "dct:rights" on LINDAS rather than the ideal description in the DCAT-AP handbook
     if rights:
         if "https://ld.admin.ch/vocabulary/TermsOfUse" in rights:
-            g.add((dataset, dct.rights, URIRef(rights)))
+            g.add((dataset, DCT.rights, URIRef(rights)))
         else: print("opendata.swiss rights not formatted correctly")
     else: print("opendata.swiss rights missing")
     
     accrual = ODS_data.get("accrual periodicity")
     if accrual:
         if "http://publications.europa.eu/resource/authority/frequency" in accrual:
-            g.add((dataset, dct.accrualPeriodicity, Literal(accrual)))
+            g.add((dataset, DCT.accrualPeriodicity, Literal(accrual)))
         else: print("opendata.swiss accrual periodicity not formatted correctly")
     else: print("opendata.swiss accrual periodicity missing")
     
@@ -351,35 +347,35 @@ if ODS_flag:
             if not theme:
                 pass
             elif "https://register.ld.admin.ch/opendataswiss/category/" in theme.strip():
-                    g.add((dataset, dcat.theme, URIRef(theme.strip())))
+                    g.add((dataset, DCAT.theme, URIRef(theme.strip())))
             else: print("opendata.swiss theme was not formatted correctly")
     else: print("opendata.swiss theme was not provided")
     keys_DE = ODS_data.get("keywords_DE").split(";")
     if keys_DE[0]:
         for key_DE in keys_DE:
             if key_DE.strip():
-                g.add((dataset, dcat.keyword, Literal(key_DE.strip(), lang="de")))
+                g.add((dataset, DCAT.keyword, Literal(key_DE.strip(), lang="de")))
             else: pass
     else: print("opendata.swiss german keywords were not provided")      
     keys_FR = ODS_data.get("keywords_FR").split(";")
     if keys_FR[0]:
         for key_FR in keys_FR:
             if key_FR.strip():
-                g.add((dataset, dcat.keyword, Literal(key_FR.strip(), lang="fr")))
+                g.add((dataset, DCAT.keyword, Literal(key_FR.strip(), lang="fr")))
             else: pass
     else: print("opendata.swiss french keywords were not provided")  
     keys_IT = ODS_data.get("keywords_IT").split(";")
     if keys_IT[0]:
         for key_IT in keys_IT:
             if key_IT.strip():
-                g.add((dataset, dcat.keyword, Literal(key_IT.strip(), lang="it")))
+                g.add((dataset, DCAT.keyword, Literal(key_IT.strip(), lang="it")))
             else: pass    
     else: print("opendata.swiss italian keywords were not provided")  
     keys_EN = ODS_data.get("keywords_EN").split(";")
     if keys_EN[0]:
         for key_EN in keys_EN:
             if key_EN.strip():
-                g.add((dataset, dcat.keyword, Literal(key_EN.strip(), lang="en")))
+                g.add((dataset, DCAT.keyword, Literal(key_EN.strip(), lang="en")))
             else: pass
     else: print("opendata.swiss english keywords were not provided")
     
@@ -388,14 +384,14 @@ if ODS_flag:
         for language in langs:
             if language:
                 language = language.strip()
-                g.add((dataset, dct.language, Literal(language, lang=language)))
+                g.add((dataset, DCT.language, Literal(language, lang=language)))
             else: pass 
     else: print("opendata.swiss languages missing")
 
     page = ODS_data.get("landing page")
     if not page: print("opendata.swiss landing page missing")
     elif "https://" in page:
-        g.add((dataset, dcat.landingPage, URIRef(page)))
+        g.add((dataset, DCAT.landingPage, URIRef(page)))
     else: print("opendata.swiss landing page not formatted correctly")
 
     docu = ODS_data.get("documentation").split(";")
@@ -412,7 +408,7 @@ if ODS_flag:
         for res in rel_res:
             if not res: pass
             elif "https://" in res:
-                g.add((dataset, dct.relation, Literal(res.strip(), datatype="http://www.w3.org/2000/01/rdf-schema#Resource")))
+                g.add((dataset, DCT.relation, Literal(res.strip(), datatype="http://www.w3.org/2000/01/rdf-schema#Resource")))
             else: print("Optional: opendata.swiss related resource not formatted correctly")
     else: print("Optional: no opendata.swiss related resource provided")
     
@@ -422,10 +418,10 @@ if ODS_flag:
             if not rel: pass
             elif "https://" in rel:
                 rel_BN = BNode()
-                g.add((dataset, dcat.qualifiedRelation, rel_BN))
-                g.add((rel_BN, RDF.type, dcat.Relationship))
-                g.add((rel_BN, dcat.hadRole, schema.sameAs))
-                g.add((rel_BN, dct.relation, Literal(rel.strip(), datatype="http://www.w3.org/2000/01/rdf-schema#Resource")))
+                g.add((dataset, DCAT.qualifiedRelation, rel_BN))
+                g.add((rel_BN, RDF.type, DCAT.Relationship))
+                g.add((rel_BN, DCAT.hadRole, SCHEMA.sameAs))
+                g.add((rel_BN, DCT.relation, Literal(rel.strip(), datatype="http://www.w3.org/2000/01/rdf-schema#Resource")))
             else: print("Optional: opendata.swiss qualified relation not formatted correctly")
     else: print("Optional: no opendata.swiss qualified relation provided")
     
@@ -435,7 +431,7 @@ if ODS_flag:
             if not tem_sta: pass
             try: 
                 datetime.strptime(str(tem_sta).strip(), date_format)
-                g.add((dataset, schema.dateCreated, Literal(tem_sta, datatype=URIRef('http://www.w3.org/2001/XMLSchema#date'))))
+                g.add((dataset, SCHEMA.dateCreated, Literal(tem_sta, datatype=URIRef('http://www.w3.org/2001/XMLSchema#date'))))
             except(ValueError):
                 print("Optional: opendata.swiss temporal start not formatted correctly")
     else: print("Optional: no opendata.swiss temporal start provided")
@@ -445,14 +441,14 @@ if ODS_flag:
             if not tem_end: pass
             try: 
                 datetime.strptime(str(tem_end).strip(), date_format)
-                g.add((dataset, schema.dateCreated, Literal(tem_end, datatype=URIRef('http://www.w3.org/2001/XMLSchema#date'))))
+                g.add((dataset, SCHEMA.dateCreated, Literal(tem_end, datatype=URIRef('http://www.w3.org/2001/XMLSchema#date'))))
             except(ValueError):
                 print("Optional: opendata.swiss temporal end not formatted correctly")
     else: print("Optional: no opendata.swiss temporal end provided")
     
     spatial = ODS_data.get("spatial")
     if spatial:
-        g.add((dataset, dct.spatial, Literal(spatial, lang = "en")))
+        g.add((dataset, DCT.spatial, Literal(spatial, lang = "en")))
     else: print("Optional: opendata.swiss spatial information missing")
 
 if name_DE: filename= name_DE.replace(" ", "_").replace(":","")+".ttl"
