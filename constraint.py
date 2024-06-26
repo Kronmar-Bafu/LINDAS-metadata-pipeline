@@ -41,11 +41,11 @@ class Constraint:
                 # todo: implementation
                 exit
 
-        # Name of dimension
-        self._add(dim_node, SCHEMA.name, Literal(dim_dict.get("name_DE"), lang="de"))
-        self._add(dim_node, SCHEMA.name, Literal(dim_dict.get("name_FR"), lang="fr"))
-        self._add(dim_node, SCHEMA.name, Literal(dim_dict.get("name_IT"), lang="it"))
-        self._add(dim_node, SCHEMA.name, Literal(dim_dict.get("name_EN"), lang="en"))
+        # Name and description
+        for lang, name in dim_dict.get("name").items():
+            self._add(dim_node, SCHEMA.name, Literal(name, lang=lang))
+        for lang, desc in dim_dict.get("description").items():
+            self._add(dim_node, SCHEMA.description, Literal(desc, lang=lang))
 
         # Min and Max Count
         self._add(dim_node, SH.maxCount, Literal(1))
@@ -57,8 +57,8 @@ class Constraint:
                 self._add(dim_node, QUDT.scaleType, QUDT.RatioScale)
             case "interval":
                 self._add(dim_node, QUDT.scaleType, QUDT.IntervalScale)
-            case "ordonal":
-                self._add(dim_node, QUDT.scaleType, QUDT.OrdonoalScale)
+            case "ordinal":
+                self._add(dim_node, QUDT.scaleType, QUDT.OrdinalScale)
             case "nominal":
                 self._add(dim_node, QUDT.scaleType, QUDT.NominalScale)
             case _:
