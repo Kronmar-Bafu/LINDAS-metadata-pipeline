@@ -2,7 +2,8 @@
 shape-URI: https://dummy_test.ld.admin.ch/cube/shape/
 dimensions:
   # required
-  - dimension-type: Key Dimension
+  - column-name: Jahr
+    dimension-type: Key Dimension
     scale-type: ordinal
     name:
       de: Jahr
@@ -16,3 +17,28 @@ dimensions:
     data-kind: 
       type: temporal
       unit: year
+
+  - column-name: Stoff
+    dimension-type: Key Dimension
+    scale-type: nominal
+    name:
+      de: Stoff
+      fr: Substance
+      it: Sostanza
+      en: Substance
+    description:
+      de: Betrachteter Stoff
+    path: https://dummy_test.ld.admin.ch/cube/compound
+  
+  - column-name: Emission
+    dimension-type: Measure Dimension
+    scale-type: ratio
+    name:
+      de: Relative Emission
+      fr: Émission relative
+      it: Emissione relativa
+      en: Relative emission
+    description:
+      de: Relative Emission im Verhältnis zum Stichjahr 1990 (entspricht 100%)
+    unit: percent
+    path: https://dummy_test.ld.admin.ch/cube/relative_emission

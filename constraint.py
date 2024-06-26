@@ -1,6 +1,6 @@
 from rdflib import BNode, Graph, Literal, RDF, XSD, URIRef
 import yaml
-from namespaces import bind_namespaces, CUBE, META, QUDT, SCHEMA, SH, TIME
+from namespaces import bind_namespaces, CUBE, META, QUDT, SCHEMA, SH, TIME, UNIT
 
 
 class Constraint:
@@ -39,6 +39,9 @@ class Constraint:
             case "Measure Dimension":
                 # todo: min and max construction
                 self._add(dim_node, RDF.type, CUBE.MeasureDimension)
+                self._add(dim_node, SH.nodeKind, SH.Literal)
+                unit_iri = self._get_unit_iri(unit = dim_dict.get("unit"))
+                self._add(dim_node, QUDT.hasUnit, unit_iri)
             case "Error Dimension":
                 # todo: implementation
                 pass
@@ -76,8 +79,13 @@ class Constraint:
             self._add(dim_node, META.dataKind, kind_node)
             self._construct_data_kind(kind_node, dim_dict.get("data-kind"))
     
+    @staticmethod
+    def _get_unit_iri(unit: str) -> URIRef:
+        match unit:
+            case "percent":
+                return UNIT.PERCENT
+    
     def _construct_data_kind(self, kind_node: BNode, kind_dict: dict):
-        
         match kind_dict.get("type"):
             case "temporal":
                 self._add(kind_node, RDF.type, TIME.GeneralDateTimeDescription)
