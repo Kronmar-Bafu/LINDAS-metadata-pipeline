@@ -22,12 +22,14 @@ class Constraint:
         self._graph.serialize(destination=path, format="turtle", encoding="utf-8")
 
     def _construct_shape(self):
+        order = 1
         for dim_dict in self._dict.get("dimensions"):
             bnode = BNode()
             self._add(self._shape_uri, SH.property, bnode)
-            self._construct_dimension(bnode, dim_dict)
+            self._construct_dimension(bnode, dim_dict, order=order)
+            order += 1
 
-    def _construct_dimension(self, dim_node: BNode, dim_dict: dict):
+    def _construct_dimension(self, dim_node: BNode, dim_dict: dict, order: int):
         # Dimension type
         match dim_dict.get("dimension-type"):
             case "Key Dimension":
@@ -47,9 +49,10 @@ class Constraint:
         for lang, desc in dim_dict.get("description").items():
             self._add(dim_node, SCHEMA.description, Literal(desc, lang=lang))
 
-        # Min and Max Count
+        # Min-, Max-count and order
         self._add(dim_node, SH.maxCount, Literal(1))
         self._add(dim_node, SH.minCount, Literal(1))
+        self._add(dim_node, SH.order, Literal(order))
 
         # Scale Type
         match dim_dict.get("scale-type"):
@@ -69,37 +72,34 @@ class Constraint:
 
         # optional 
         if "data-kind" in dim_dict.keys():
-            kind_bnode = BNode()
-            self._add(dim_node, META.dataKind, kind_bnode)
-            match dim_dict.get("data-kind").get("type"):
-                case "GeneralDateTimeDescription":
-                    self._add(kind_bnode)
+            kind_node = BNode()
+            self._add(dim_node, META.dataKind, kind_node)
+            self._construct_data_kind(kind_node, dim_dict.get("data-kind"))
     
-    def _construct_data_kind(self, dim_node: BNode, kind_dict: dict):
-        kind_bnode = BNode()
-        self._add(dim_node, META.dataKind, kind_bnode)
+    def _construct_data_kind(self, kind_node: BNode, kind_dict: dict):
+        
         match kind_dict.get("type"):
             case "temporal":
-                self._add(kind_bnode, RDF.type, TIME.GeneralDateTimeDescription)
+                self._add(kind_node, RDF.type, TIME.GeneralDateTimeDescription)
                 match kind_dict.get("unit"):
                     case "second":
-                        self._add(kind_bnode, TIME.unitType, TIME.unitSecond)
+                        self._add(kind_node, TIME.unitType, TIME.unitSecond)
                     case "minute":
-                        self._add(kind_bnode, TIME.unitType, TIME.unitMinute)
+                        self._add(kind_node, TIME.unitType, TIME.unitMinute)
                     case "hour":
-                        self._add(kind_bnode, TIME.unitType, TIME.unitHour)
+                        self._add(kind_node, TIME.unitType, TIME.unitHour)
                     case "day":
-                        self._add(kind_bnode, TIME.unitType, TIME.unitDay)
+                        self._add(kind_node, TIME.unitType, TIME.unitDay)
                     case "week":
-                        self._add(kind_bnode, TIME.unitType, TIME.unitWeek)
+                        self._add(kind_node, TIME.unitType, TIME.unitWeek)
                     case "month":
-                        self._add(kind_bnode, TIME.unitType, TIME.unitMonth)
+                        self._add(kind_node, TIME.unitType, TIME.unitMonth)
                     case "year":
-                        self._add(kind_bnode, TIME.unitType, TIME.unitYear)
+                        self._add(kind_node, TIME.unitType, TIME.unitYear)
                     case _:
                         exit
             case "spatial":
-                self._add(kind_bnode, RDF.type, SCHEMA.GeoShape)
+                self._add(kind_node, RDF.type, SCHEMA.GeoShape)
                     
 
     
