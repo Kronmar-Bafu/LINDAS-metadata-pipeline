@@ -10,6 +10,7 @@ dimensions:
       en: Year
     description:
       de: Jahr der Erhebung
+    path: https://dummy_test.ld.admin.ch/cube/year
     data-kind: 
       type: GeneralDateTimeDescription
       unit-type: year

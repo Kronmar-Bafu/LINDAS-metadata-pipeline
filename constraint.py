@@ -39,7 +39,7 @@ class Constraint:
                 self._add(dim_node, RDF.type, CUBE.MeasureDimension)
             case "Error Dimension":
                 # todo: implementation
-                exit
+                pass
 
         # Name and description
         for lang, name in dim_dict.get("name").items():
@@ -63,6 +63,9 @@ class Constraint:
                 self._add(dim_node, QUDT.scaleType, QUDT.NominalScale)
             case _:
                 exit
+        
+        # Path
+        self._add(dim_node, SH.path, URIRef(dim_dict.get("path")))
     
     def _setup_constraint(self) -> Graph:
         graph = Graph()
