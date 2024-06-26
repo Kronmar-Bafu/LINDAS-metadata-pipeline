@@ -1,6 +1,6 @@
 from rdflib import BNode, Graph, Literal, RDF, XSD, URIRef
 import yaml
-from namespaces import bind_namespaces, CUBE, QUDT, SCHEMA, SH
+from namespaces import bind_namespaces, CUBE, META, QUDT, SCHEMA, SH, TIME
 
 
 class Constraint:
@@ -66,6 +66,42 @@ class Constraint:
         
         # Path
         self._add(dim_node, SH.path, URIRef(dim_dict.get("path")))
+
+        # optional 
+        if "data-kind" in dim_dict.keys():
+            kind_bnode = BNode()
+            self._add(dim_node, META.dataKind, kind_bnode)
+            match dim_dict.get("data-kind").get("type"):
+                case "GeneralDateTimeDescription":
+                    self._add(kind_bnode)
+    
+    def _construct_data_kind(self, dim_node: BNode, kind_dict: dict):
+        kind_bnode = BNode()
+        self._add(dim_node, META.dataKind, kind_bnode)
+        match kind_dict.get("type"):
+            case "temporal":
+                self._add(kind_bnode, RDF.type, TIME.GeneralDateTimeDescription)
+                match kind_dict.get("unit"):
+                    case "second":
+                        self._add(kind_bnode, TIME.unitType, TIME.unitSecond)
+                    case "minute":
+                        self._add(kind_bnode, TIME.unitType, TIME.unitMinute)
+                    case "hour":
+                        self._add(kind_bnode, TIME.unitType, TIME.unitHour)
+                    case "day":
+                        self._add(kind_bnode, TIME.unitType, TIME.unitDay)
+                    case "week":
+                        self._add(kind_bnode, TIME.unitType, TIME.unitWeek)
+                    case "month":
+                        self._add(kind_bnode, TIME.unitType, TIME.unitMonth)
+                    case "year":
+                        self._add(kind_bnode, TIME.unitType, TIME.unitYear)
+                    case _:
+                        exit
+            case "spatial":
+                self._add(kind_bnode, RDF.type, SCHEMA.GeoShape)
+                    
+
     
     def _setup_constraint(self) -> Graph:
         graph = Graph()

@@ -1,6 +1,7 @@
 ---
 shape-URI: https://dummy_test.ld.admin.ch/cube/shape/
 dimensions:
+  # required
   - dimension-type: Key Dimension
     scale-type: ordinal
     name:
@@ -11,6 +12,7 @@ dimensions:
     description:
       de: Jahr der Erhebung
     path: https://dummy_test.ld.admin.ch/cube/year
+  # optional - löschen wenn nicht benötigt
     data-kind: 
-      type: GeneralDateTimeDescription
-      unit-type: year
+      type: temporal
+      unit: year
